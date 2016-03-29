@@ -1,0 +1,32 @@
+<div class="container-fluid form-group" ng-controller="SearchController">
+  <div class="row">
+    <form ng-submit="mylist_seach()">
+      <div class="col-md-6 col-md-offset-2">
+        <input id="anime-search" ng-model="query" class="form-control" type="text" placeholder="Search AnimeList">
+      </div>
+      <div class="col-md-2">
+        <button ng-click="mylist_search()" id="anime-button" style="width:75%" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>  
+  <br>
+  <div ng-repeat="show in shows" ng-hide="shows.length == 0">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-sm-6" >
+          <h2>{{show.title}}</h2>
+          <p ng-bind-html="show.synopsis">
+            {{show.synopsis}}
+          </p>
+          <div style="text-align:center">
+            <button ng-if="!show.added" ng-click="add_show(show)" class="btn btn-primary">Add Show</button>
+            <button ng-if="show.added" class="btn btn-success">Show Added</button>
+          </div>
+        </div>
+        <div id="picture" class="col-sm-6">
+          <img style="width:100%" src="{{show.image}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

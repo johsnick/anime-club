@@ -11,7 +11,13 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
 //= require turbolinks
-//= require_tree .
 //= require angular
+//= require_tree .
+//= require bootstrap-sprockets
+//= require app
+//= require angular-devise
+//= require angular-cookie/angular-cookie
+//= require ng-token-auth/dist/ng-token-auth
+//= require bootstrap-show-password/bootstrap-show-password
+//= require angular-route/angular-route

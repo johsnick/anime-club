@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-6" >
+      <h2><%=show.name%></h2>
+      <b> Votes: {{count}}</b>
+      <p>
+        <%=show.description%>
+      </p>
+      <button ng-click="vote(<%=show.id%>)" ng-init="count=<%=show.votes.count%>"style="width:50%" type="submit" class="btn btn-primary vote-btn">Vote</button>
+    </div>
+    <div id="picture" class="col-sm-6">
+      <img style="width:100%" src="<%=show.photo%>">
+    </div>
+  </div>
+</div>

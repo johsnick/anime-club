@@ -1,9 +1,29 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'User', at: 'auth'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+
+  root 'shows#index'
+
+  resources :votes do 
+    collection do
+      delete 'unvote'
+      get 'my-votes', to: 'votes#my_votes'
+    end
+  end
+  resources :shows do 
+    collection do 
+      get 'votes-page', to: 'shows#vote_page'
+      get 'this-week', to:'shows#this_week'
+    end
+  end
+
+  resources :users
+
+  get 'animelist/search' => 'animelist#search'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

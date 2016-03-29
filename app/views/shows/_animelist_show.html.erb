@@ -1,0 +1,19 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm-6">
+      <h2><%=show.name%></h2>
+      <b> Votes: <%= show.votes.count %> </b>
+      <p>
+        <%=show.description%>
+      </p>
+
+      <form action="votes" method="post">
+        <input class="hidden" value="<%=show.id%>" name="show_id">
+        <button style="width:50%" type="submit" class="btn btn-primary vote-btn">Vote</button>
+      </form>
+    </div>
+    <div id="picture" class="col-sm-6">
+      <img style="width:90%" src="<%=show.photo%>">
+    </div>
+  </div>
+</div>

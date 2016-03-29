@@ -1,0 +1,56 @@
+<div class="container" ng-if="user.id" ng-controller="ShowController">
+  <div class="row">
+    <form ng-submit="mylist_seach()">
+      <div class="col-md-6 col-md-offset-2">
+        <input id="anime-search" ng-model="query" class="form-control" type="text" placeholder="Search AnimeList">
+      </div>
+      <div class="col-md-2">
+        <button ng-click="mylist_search()" id="anime-button" style="width:100%" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>  
+  <br>
+  <div ng-repeat="show in shows">
+    <div ng-if="show.animelist_id" class="jumbotron">
+      <div class="row">
+        <div class="col-sm-6" >
+          <h2>{{show.name}}</h2>
+          <h3 ng-if="!show.show_type"> Votes: {{show.vote_count}}</h3>
+          <h3 ng-bind="show.show_type"></h3>
+          <p ng-bind="show.description"></p>
+          <div ng-if="!show.show_type">
+            <div ng-if="!show.voted">
+              <button ng-click="vote(show)" style="width:25%" class="btn btn-primary">Vote</button>
+              <button ng-click="vote(show, 'super')" style="width:25%" class="btn btn-primary">Super Vote</button>
+              <button ng-click="vote(show, 'down')" style="width:25%" class="btn btn-primary">Down</button>
+            </div>
+            <div ng-if="show.voted">
+              <button ng-click="unvote(show)" style="width:75%"class="btn btn-success">Voted</button>
+            </div>
+          </div>
+          <div style="width:75%;margin-top:20px" class="alert alert-danger" ng-if="show.error">
+            <p ng-bind="show.error"></p>
+          </div>
+        </div>
+        <div id="picture" class="col-sm-6">
+          <img style="width:100%" src="{{show.photo}}">
+        </div>
+      </div>
+    </div>
+    <div ng-if="!show.animelist_id" class="jumbotron">
+      <div class="row">
+        <div class="col-sm-6" >
+          <h2>{{show.title}}</h2>
+          <span ng-bind="show.synopsis"></span>
+          <div style="text-align:center">
+            <button ng-if="!show.added" ng-click="add_show(show)" class="btn btn-primary">Add Show</button>
+            <button ng-if="show.added" class="btn btn-success">Show Added</button>
+          </div>
+        </div>
+        <div id="picture" class="col-sm-6">
+          <img style="width:100%" src="{{show.image}}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

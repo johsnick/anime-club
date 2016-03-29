@@ -26,6 +26,15 @@ gem 'angularjs-rails'
 gem 'bootstrap-sass'
 gem 'sass-rails'
 
+gem 'httparty'
+gem 'pry'
+gem 'pry-rails'
+gem 'devise_token_auth'
+gem 'omniauth'
+
+source "https://rails-assets.org" do
+  gem "rails-assets-angular-devise"
+end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -37,7 +46,7 @@ gem 'sass-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'pry-byebug'
 end
 
 group :development do
