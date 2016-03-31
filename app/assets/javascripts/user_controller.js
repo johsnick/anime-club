@@ -1,5 +1,5 @@
 angular.module('anime')
-.controller('UserController', function ($scope, $auth, $rootScope){
+.controller('UserController', function ($scope, $auth, $rootScope, $location){
   $scope.sign_up = function (){
     $auth.submitRegistration({email: $scope.username + '@blah.com',
                              password: $scope.password,
@@ -14,8 +14,9 @@ angular.module('anime')
   $scope.sign_in = function (){
     $auth.submitLogin({email: $scope.username + '@blah.com', password: $scope.password})
     .then( function (e){
+      console.log(e);
       $rootScope.user = e;
-      $rootScope.$broadcast('signed_in');
+      $location.path('/shows');
     }).catch( function (e){
       console.log(e);
     });
@@ -24,7 +25,7 @@ angular.module('anime')
   $scope.sign_out = function (){
     $auth.signOut()
     .then(function (e){
-      $rootScope.view = 'sign_in'
+      $rootScoop.user = null;
     }).catch(function (e){
       console.log(e);
     });

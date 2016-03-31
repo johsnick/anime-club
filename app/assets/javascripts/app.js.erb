@@ -1,0 +1,35 @@
+angular.module('anime', ['ng-token-auth', 'ngRoute'])
+.config(function ($authProvider, $httpProvider, $routeProvider, $locationProvider) {
+  $authProvider.configure({
+    apiUrl: 'http://localhost:3000'
+  });
+
+
+  // $locationProvider.html5Mode({
+  //   enabled: true,
+  //   requireBase: false
+  // });
+
+  $routeProvider
+  .when('/', {
+    templateUrl: '<%= asset_path("users/sign_in.html") %>',
+    controller: 'UserController'
+  }).when('/shows',{
+      templateUrl: '<%= asset_path("show.html")%>',
+      controller: 'ShowController'
+   }).when('/shows/this-week', {
+      templateUrl: '<%=asset_path("show.html") %>',
+      controller: 'ShowController',
+      view: 'this-week'
+   }).when('/shows/my-votes', {
+      templateUrl: '<%=asset_path("show.html") %>',
+      controller: 'ShowController',
+      view: 'my-votes'
+   }).when('/users/sign-up', {
+      templateUrl: '<%= asset_path("users/sign_up.html") %>',
+      controller: 'UserController'
+   }).otherwise({
+      redirect_to: '/'
+   });
+});
+

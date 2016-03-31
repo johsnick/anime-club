@@ -1,26 +1,29 @@
 angular.module('anime').
-controller('MainController', function ($scope, $auth, $rootScope){
+controller('MainController', function ($scope, $auth, $rootScope, $location){
   $rootScope.view = 'sign_in';
 
   $rootScope.$on('auth:validation-success', function (e, data) {
-    $rootScope.user = data;
-    console.log('sent');
-    $rootScope.$broadcast('signed_in');
+        $rootScope.user = data;
+        $location.path('/shows');
   });
 
-  $scope.this_week = function (){
-    $rootScope.$broadcast('this-week');
-  }
+  $rootScope.$on('auth:validation-failure', function (e, data){
+    $rootScope.user = null;
+    $location.path('/');
+  });
 
-  $scope.my_votes = function (){
-    $rootScope.$broadcast('my-votes');
-  }
+  console.log($rootScope.user);
 
-  $scope.top_shows = function (){
-    $rootScope.$broadcast('top-shows');
+  if(! $rootScope.user.id){
+    $location.path('/');
   }
 
   $scope.sign_out = function (){
-    $rootScope.$broadcast('sign_out');
+    $auth.signOut()
+    .then(function (e) {
+      $rootScope.user = null;
+      $location.path('/');
+    });
   }
+
 });

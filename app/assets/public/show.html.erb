@@ -1,4 +1,4 @@
-<div class="container" ng-if="user.id" ng-controller="ShowController">
+<div class="container">
   <div class="row">
     <form ng-submit="mylist_seach()">
       <div class="col-md-6 col-md-offset-2">
@@ -9,20 +9,28 @@
       </div>
     </form>
   </div>  
+  <div class="row" style="margin-top:20px">
+    <div id="loading" ng-show="loading" class="col-sm-2 col-sm-offset-5">
+      <img src="<%= asset_path('loading.gif') %>">
+    </div>
+  </div>
   <br>
   <div ng-repeat="show in shows">
-    <div ng-if="show.animelist_id" class="jumbotron">
+    <div ng-if="show.animelist_id" class="jumbotron" style="max-height:400px">
       <div class="row">
-        <div class="col-sm-6" >
+        <div id="picture" class="col-sm-4">
+          <img style="height=100%" src="{{show.photo}}">
+        </div>
+
+        <div class="col-sm-4">
           <h2>{{show.name}}</h2>
           <h3 ng-if="!show.show_type"> Votes: {{show.vote_count}}</h3>
           <h3 ng-bind="show.show_type"></h3>
-          <p ng-bind="show.description"></p>
           <div ng-if="!show.show_type">
             <div ng-if="!show.voted">
-              <button ng-click="vote(show)" style="width:25%" class="btn btn-primary">Vote</button>
-              <button ng-click="vote(show, 'super')" style="width:25%" class="btn btn-primary">Super Vote</button>
-              <button ng-click="vote(show, 'down')" style="width:25%" class="btn btn-primary">Down</button>
+              <button ng-click="vote(show)" style="width:30%" class="btn btn-primary">Vote</button>
+              <button ng-click="vote(show, 'super')" style="width:30%" class="btn btn-primary">Super Vote</button>
+              <button ng-click="vote(show, 'down')" style="width:30%" class="btn btn-primary">Down</button>
             </div>
             <div ng-if="show.voted">
               <button ng-click="unvote(show)" style="width:75%"class="btn btn-success">Voted</button>
@@ -32,23 +40,25 @@
             <p ng-bind="show.error"></p>
           </div>
         </div>
-        <div id="picture" class="col-sm-6">
-          <img style="width:100%" src="{{show.photo}}">
+        <div class="col-sm-4">
+          <p style="height:310px;text-overflow:ellipsis;overflow:scroll" ng-bind="show.description"></p>
         </div>
       </div>
     </div>
-    <div ng-if="!show.animelist_id" class="jumbotron">
+    <div ng-if="!show.animelist_id" class="jumbotron" style="max-height:400px">
       <div class="row">
-        <div class="col-sm-6" >
+        <div id="picture" class="col-sm-4">
+          <img style="height:100%" src="{{show.image}}">
+        </div>
+        <div class="col-sm-4" >
           <h2>{{show.title}}</h2>
-          <span ng-bind="show.synopsis"></span>
           <div style="text-align:center">
             <button ng-if="!show.added" ng-click="add_show(show)" class="btn btn-primary">Add Show</button>
             <button ng-if="show.added" class="btn btn-success">Show Added</button>
           </div>
         </div>
-        <div id="picture" class="col-sm-6">
-          <img style="width:100%" src="{{show.image}}">
+        <div class="col-sm-4">
+          <p style="height:310px;text-overflow:ellipsis;overflow:scroll" ng-bind="show.synopsis"></p>
         </div>
       </div>
     </div>

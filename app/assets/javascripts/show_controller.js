@@ -1,14 +1,17 @@
 var anime = angular.module('anime');
-anime.controller('ShowController', function ($scope, $http, $auth, $rootScope){
+anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $route){
   $scope.shows = [];
 
   $scope.mylist_search = function (){
+    $scope.shows = null;
+    $scope.loading = true;
     $http({
       url: '/animelist/search',
       method: 'GET',
       params: {query: $scope.query},
       headers: $auth.retrieveData('auth_headers'),
     }).then(function (e) {
+        $scope.loading = false;
         $scope.shows = e.data;
     });
   }
@@ -57,7 +60,6 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope){
       headers: $auth.retrieveData('auth_headers'),
       params: {show_id: show.id}
     }).then(function (e){
-      console.log(e);
       show.voted = false;
       show.error = null;
       show.vote_count = show.vote_count - e.data.value;
@@ -65,53 +67,49 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope){
   }
 
   $scope.load_shows = function (){
+    $scope.shows = null;
+    $scope.loading = true;
     $http({
       url: '/shows/votes-page',
       method: 'GET',
       headers: $auth.retrieveData('auth_headers'),
     }).then( function (e) {
+      $scope.loading = false;
       $scope.shows = e.data;
-      console.log($scope.shows);
-      console.log($rootScope.view);
     });
   }
 
   $scope.this_week = function (){
+    $scope.shows = null;
+    $scope.loading = true;
     $http({
       url: '/shows/this-week',
       method: 'GET',
       headers: $auth.retrieveData('auth_headers')
     }).then(function (e){
-      console.log(e);
+      $scope.loading = false;
       $scope.shows = e.data;
     });
   }
 
   $scope.my_votes = function (){
+    $scope.shows = null;
+    $scope.loading = true;
     $http({
       url: '/votes/my-votes',
       method: 'GET',
       headers: $auth.retrieveData('auth_headers')
     }).then(function (e){
+      $scope.loading = false;
       $scope.shows = e.data;
     });
   }
 
-  $rootScope.$on('this-week', function (e){
-    $scope.this_week();
-  });
-
-  $rootScope.$on('my-votes', function (e){
+  if($route.current.$$route.view == 'my-votes'){
     $scope.my_votes();
-  });
-
-  $rootScope.$on('top-shows', function (e){
+  } else if($route.current.$$route.view == 'this-week'){
+    $scope.this_week();
+  } else {
     $scope.load_shows();
-  });
-
-  $rootScope.$on('signed_in', function (e) {
-    $rootScope.view = 'shows';
-    console.log('recieved');
-    $scope.load_shows();
-  });
+  }
 });

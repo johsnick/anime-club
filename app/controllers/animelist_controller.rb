@@ -3,10 +3,16 @@ class AnimelistController < ApplicationController
 
   def search
     auth = {username: 'swordlord936', password: 'wLUdb3MGTl4hG7x2'}
-    response = HTTParty.get('http://myanimelist.net/api/anime/search.xml',
+    response = HTTParty.get('http://myanimelist.net/api/anime/search.json',
                             basic_auth: auth,
-                            query: {q: params[:query]})
+                            query: {q: params[:query],
+                                    type: 'anime'})
+
     animes = response['anime']['entry']
+    if animes.class != Array 
+      animes = [animes]
+    end
+
     results = []
     animes.each do |anime|
       show = Show.find_by(animelist_id: anime['id'])

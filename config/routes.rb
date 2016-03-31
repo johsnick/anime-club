@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
 
-  root 'shows#index'
+  root 'layouts#index'
 
   resources :votes do 
     collection do
@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do 
+    collection do 
+      get 'sign-in', to: 'users#sign_in'
+    end
+  end
 
   get 'animelist/search' => 'animelist#search'
 
