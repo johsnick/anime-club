@@ -1,10 +1,11 @@
-var anime = angular.module('anime');
-anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $route){
+angular.module('anime')
+.controller('ShowController', function ($scope, $http, $auth, $rootScope, $route){
   $scope.shows = [];
 
   $scope.mylist_search = function (){
     $scope.shows = null;
     $scope.loading = true;
+    $scope.error = false;
     $http({
       url: '/animelist/search',
       method: 'GET',
@@ -12,7 +13,24 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $
       headers: $auth.retrieveData('auth_headers'),
     }).then(function (e) {
         $scope.loading = false;
+        $scope.error = false;
         $scope.shows = e.data;
+      }, function (e) {
+        $scope.error = e.data.error;
+        $scope.loading = false;
+    });
+  }
+
+  $scope.make_ongoing = function (show) {
+    $http({
+      url: '/shows/' + show.id + '/make-ongoing',
+      method: 'POST',
+      headers: $auth.retrieveData('auth_headers'),
+    }).then(function (e) {
+      console.log(e);
+      show.show_type = e.data.show_type;
+    }, function (e) {
+      console.log(e);
     });
   }
 
@@ -68,6 +86,7 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $
 
   $scope.load_shows = function (){
     $scope.shows = null;
+    $scope.error = false;
     $scope.loading = true;
     $http({
       url: '/shows/votes-page',
@@ -75,24 +94,35 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $
       headers: $auth.retrieveData('auth_headers'),
     }).then( function (e) {
       $scope.loading = false;
+      $scope.error = false;
       $scope.shows = e.data;
+    }).catch( function (e) {
+        console.log(e);
+        $scope.error = true;
+        $scope.loading = false;
     });
   }
 
   $scope.this_week = function (){
     $scope.shows = null;
     $scope.loading = true;
+    $scope.error = false;
     $http({
       url: '/shows/this-week',
       method: 'GET',
       headers: $auth.retrieveData('auth_headers')
     }).then(function (e){
       $scope.loading = false;
+      $scope.error = false;
       $scope.shows = e.data;
+    }).catch( function (e) {
+      $scope.error = true;
+      $scope.loading = false;
     });
   }
 
   $scope.my_votes = function (){
+    $scope.error = false;
     $scope.shows = null;
     $scope.loading = true;
     $http({
@@ -101,7 +131,11 @@ anime.controller('ShowController', function ($scope, $http, $auth, $rootScope, $
       headers: $auth.retrieveData('auth_headers')
     }).then(function (e){
       $scope.loading = false;
+      $scope.error = false;
       $scope.shows = e.data;
+    }).catch( function (e) {
+        $scope.error = true;
+        $scope.loading = false;
     });
   }
 

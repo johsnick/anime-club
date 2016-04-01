@@ -9,9 +9,12 @@
       </div>
     </form>
   </div>  
-  <div class="row" style="margin-top:20px">
+  <div class="row" style="margin-top:20px;text-align:center">
     <div id="loading" ng-show="loading" class="col-sm-2 col-sm-offset-5">
       <img src="<%= asset_path('loading.gif') %>">
+    </div>
+    <div id="error" style="text-align:center" ng-show="error" class="alert alert-info col-sm-2 col-sm-offset-5">
+      <span ng-bind="error"></span>
     </div>
   </div>
   <br>
@@ -33,10 +36,13 @@
               <button ng-click="vote(show, 'down')" style="width:30%" class="btn btn-primary">Down</button>
             </div>
             <div ng-if="show.voted">
-              <button ng-click="unvote(show)" style="width:75%"class="btn btn-success">Voted</button>
+              <button ng-click="unvote(show)" style="width:93%"class="btn btn-success">Voted</button>
+            </div>
+            <div style="margin-top:10px">
+              <button style="width:93%" ng-if="user.admin" ng-click="make_ongoing(show)" class="btn btn-default">Make Ongoing</button>
             </div>
           </div>
-          <div style="width:75%;margin-top:20px" class="alert alert-danger" ng-if="show.error">
+          <div style="width:93%;text-align:center;margin-top:20px" class="alert alert-danger" ng-if="show.error">
             <p ng-bind="show.error"></p>
           </div>
         </div>

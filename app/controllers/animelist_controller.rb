@@ -8,6 +8,11 @@ class AnimelistController < ApplicationController
                             query: {q: params[:query],
                                     type: 'anime'})
 
+    if response.nil?
+      render json: {error: 'No Results Found'}, status: 404
+      return
+    end
+
     animes = response['anime']['entry']
     if animes.class != Array 
       animes = [animes]

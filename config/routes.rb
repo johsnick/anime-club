@@ -17,6 +17,12 @@ Rails.application.routes.draw do
     collection do 
       get 'votes-page', to: 'shows#vote_page'
       get 'this-week', to:'shows#this_week'
+      get 'rand'
+      post 'new-random', to:'shows#new_random'
+    end
+
+    member do 
+      post 'make-ongoing', to: 'shows#make_ongoing'
     end
   end
 

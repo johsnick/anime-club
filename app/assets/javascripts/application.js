@@ -21,3 +21,4 @@
 //= require ng-token-auth/dist/ng-token-auth
 //= require bootstrap-show-password/bootstrap-show-password
 //= require angular-route/angular-route
+//= require user_admin_controller

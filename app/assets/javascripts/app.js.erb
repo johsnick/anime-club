@@ -28,8 +28,9 @@ angular.module('anime', ['ng-token-auth', 'ngRoute'])
    }).when('/users/sign-up', {
       templateUrl: '<%= asset_path("users/sign_up.html") %>',
       controller: 'UserController'
-   }).otherwise({
-      redirect_to: '/'
+   }).when('/admin', {
+      templateUrl: '<%= asset_path("admin.html") %>',
+      controller: 'UserAdminController'
    });
 });
 

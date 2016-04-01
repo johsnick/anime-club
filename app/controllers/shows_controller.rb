@@ -13,6 +13,21 @@ class ShowsController < ApplicationController
   def new
   end
 
+  def make_ongoing
+    old_show = Show.find_by(show_type: 'Ongoing Series')
+    if old_show.present?
+      old_show.show_type = nil
+      old_show.save!
+    end
+
+    show = Show.find params[:id]
+    show.show_type = 'Ongoing Series'
+    show.save!
+    show.votes.destroy_all
+
+    render json: show
+  end
+
   def create
     show = Show.new
     show.description = params[:description]
@@ -27,5 +42,22 @@ class ShowsController < ApplicationController
     shows = Show.order(:show_type, vote_count: :desc)
     current_user.inject_voted(shows)
     render json: shows.to_json(methods: [:voted])
+  end
+
+  def rand 
+    show = Show.find_by(show_type: 'Random Pick')
+    render json: show
+  end
+
+  def new_random
+    show = Show.find_by(show_type: 'Random Pick')
+    show.show_type = nil
+    show.save!
+
+    show = Show.fetch_random
+    show.show_type = 'Random Pick'
+    show.save
+
+    render json: show
   end
 end

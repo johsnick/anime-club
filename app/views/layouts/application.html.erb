@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app='anime'>
+<html ng-app="anime">
 <head>
   <title>AnimeClub</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-controller="MainController" base="/">
+<body ng-controller="MainController">
 <nav class="navbar navbar-default navbar-fixed-top navbar-absolute" style="border:100px">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -20,8 +20,9 @@
         <li><a href="#/shows/this-week" ng-click="this_week()">This Week</a></li>
         <li><a href="#/shows/my-votes" ng-click="my_votes()">My Votes</a></li>
         <li><a href='#/shows' ng-click="top_shows()">Top Shows</a></li>
-        <li><a href="#" ng-click="sign_out()">Sign Out</a></li>
+        <li><a href="#/" ng-click="sign_out()">Sign Out</a></li>
         <li ng-if="user.admin"><a href="#/users/sign-up">Sign Up</a></li>
+        <li ng-if="user.admin"><a href="#/admin">Admin</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
