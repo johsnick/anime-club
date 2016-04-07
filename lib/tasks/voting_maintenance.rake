@@ -7,9 +7,6 @@ namespace :voting do
     show.show_type = nil
     show.save 
 
-    show = Show.order('random()').first
-    show.show_type = 'Random Pick'
-    show.save
   
     shows = Show.order(:vote_count).offset(4).where('vote_count > 0')
   end

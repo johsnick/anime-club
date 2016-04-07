@@ -13,6 +13,11 @@ class VotesController < ApplicationController
     end
   end
 
+  def reset
+    Vote.destroy_all
+    render json: {}
+  end
+
   def my_votes
     shows = current_user.shows.map {|show| show.voted = true; show}
     render json: shows.to_json(methods: [:voted])

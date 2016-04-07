@@ -3,6 +3,15 @@ class Show < ActiveRecord::Base
   attr_accessor :voted
 
   def self.fetch_random
-    where('vote_count > 0').order('random()').offset(4).first
+    show = nil
+    shows = where('vote_count > 0').to_a
+    if shows.count > 4
+      4.times {shows.shift}
+      show = shows.sample
+    else
+      show = Show.where(vote_count: 0).order('random()').first
+    end
+
+    show
   end
 end

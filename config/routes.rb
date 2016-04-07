@@ -7,10 +7,13 @@ Rails.application.routes.draw do
 
   root 'layouts#index'
 
+  resources :vote_config, path: 'vote-config'
+
   resources :votes do 
     collection do
       delete 'unvote'
       get 'my-votes', to: 'votes#my_votes'
+      delete 'reset'
     end
   end
   resources :shows do 
@@ -22,6 +25,7 @@ Rails.application.routes.draw do
     end
 
     member do 
+      put 'unban'
       post 'make-ongoing', to: 'shows#make_ongoing'
     end
   end

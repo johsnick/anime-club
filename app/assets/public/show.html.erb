@@ -20,34 +20,41 @@
   <br>
   <div ng-repeat="show in shows">
     <div ng-if="show.animelist_id" class="jumbotron" style="max-height:400px">
-      <div class="row">
-        <div id="picture" class="col-sm-4">
-          <img style="height=100%" src="{{show.photo}}">
-        </div>
-
-        <div class="col-sm-4">
-          <h2>{{show.name}}</h2>
-          <h3 ng-if="!show.show_type"> Votes: {{show.vote_count}}</h3>
-          <h3 ng-bind="show.show_type"></h3>
-          <div ng-if="!show.show_type">
-            <div ng-if="!show.voted">
-              <button ng-click="vote(show)" style="width:30%" class="btn btn-primary">Vote</button>
-              <button ng-click="vote(show, 'super')" style="width:30%" class="btn btn-primary">Super Vote</button>
-              <button ng-click="vote(show, 'down')" style="width:30%" class="btn btn-primary">Down</button>
+      <div ng-if="show.banned">
+        <h2>{{show.name}}</h2>
+        <span>This show has been deemed inappropiate, if you would like to contest this decision please contact an admin</span><br>
+        <button ng-if="user.admin" class="btn btn-primary" ng-click="unban(show)">Unban</button>
+      </div>
+      <div ng-hide="show.banned">
+        <div class="row">
+          <div id="picture" class="col-sm-4">
+            <img style="height=100%" src="{{show.photo}}">
+          </div>
+          <div class="col-sm-4">
+            <h2>{{show.name}}</h2>
+            <h3 ng-if="!show.show_type"> Votes: {{show.vote_count}}</h3>
+            <h3 ng-bind="show.show_type"></h3>
+            <div ng-if="!show.show_type">
+              <div ng-if="!show.voted">
+                <button ng-click="vote(show)" style="width:30%" class="btn btn-primary">Vote</button>
+                <button ng-click="vote(show, 'super')" style="width:30%" class="btn btn-primary">Super Vote</button>
+                <button ng-click="vote(show, 'down')" style="width:30%" class="btn btn-primary">Down</button>
+              </div>
+              <div ng-if="show.voted">
+                <button ng-click="unvote(show)" style="width:93%"class="btn btn-success">Voted</button>
+              </div>
+              <div style="margin-top:10px">
+                <button style="width:93%" ng-if="user.admin" ng-click="make_ongoing(show)" class="btn btn-default">Make Ongoing</button>
+                <button style="width:93%" ng-if="user.admin" ng-click="ban(show)" class="btn btn-danger">Ban Show</button>
+              </div>
             </div>
-            <div ng-if="show.voted">
-              <button ng-click="unvote(show)" style="width:93%"class="btn btn-success">Voted</button>
-            </div>
-            <div style="margin-top:10px">
-              <button style="width:93%" ng-if="user.admin" ng-click="make_ongoing(show)" class="btn btn-default">Make Ongoing</button>
+            <div style="width:93%;text-align:center;margin-top:20px" class="alert alert-danger" ng-if="show.error">
+              <p ng-bind="show.error"></p>
             </div>
           </div>
-          <div style="width:93%;text-align:center;margin-top:20px" class="alert alert-danger" ng-if="show.error">
-            <p ng-bind="show.error"></p>
+          <div class="col-sm-4">
+            <p style="height:310px;text-overflow:ellipsis;overflow:scroll" ng-bind="show.description"></p>
           </div>
-        </div>
-        <div class="col-sm-4">
-          <p style="height:310px;text-overflow:ellipsis;overflow:scroll" ng-bind="show.description"></p>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ class ShowsController < ApplicationController
   end
 
   def vote_page
-    shows = Show.order('vote_count DESC').where(show_type: nil)
+    shows = Show.order('vote_count DESC').where(show_type: nil, banned: false)
     current_user.inject_voted(shows)
     render json: shows.to_json( methods: [:voted])
   end
@@ -39,7 +39,7 @@ class ShowsController < ApplicationController
   end
 
   def this_week
-    shows = Show.order(:show_type, vote_count: :desc)
+    shows = Show.where(banned: false).order(:show_type, vote_count: :desc)
     current_user.inject_voted(shows)
     render json: shows.to_json(methods: [:voted])
   end
@@ -49,14 +49,31 @@ class ShowsController < ApplicationController
     render json: show
   end
 
+  def destroy 
+    show = Show.find(params[:id])
+    show.banned = true
+    show.votes.destroy_all
+    show.save!
+    render json: {}
+  end
+
+  def unban
+    show = Show.find(params[:id])
+    show.banned = false
+    show.save!
+    render json: show
+  end
+
   def new_random
     show = Show.find_by(show_type: 'Random Pick')
-    show.show_type = nil
-    show.save!
+    if show.present?
+      show.show_type = nil
+      show.save!
+    end
 
     show = Show.fetch_random
     show.show_type = 'Random Pick'
-    show.save
+    show.save!
 
     render json: show
   end

@@ -32,6 +32,13 @@ class Vote < ActiveRecord::Base
   end
 
   def valid_vote?
+    config = VoteConfig.first
+    now = Time.now.in_time_zone(config.timezone) 
+    if now.wday == config.stop_voting_day && 
+           now > Time.parse(config.stop_voting_time).in_time_zone(config.timezone)
+      errors.add(:votes, 'Voting Closed')
+    end 
+
     case self.vote_type
     when 'super'
       unless user.votes.where(vote_type: 'super').count == 0

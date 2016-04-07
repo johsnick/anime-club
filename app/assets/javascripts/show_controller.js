@@ -56,6 +56,26 @@ angular.module('anime')
     });
   }
 
+  $scope.ban = function(show) {
+    $http({
+      url: '/shows/' + show.id,
+      method: 'DELETE',
+      headers: $auth.retrieveData('auth_headers')
+    }).then(function (e) {
+      show.banned = true;
+    });
+  }
+
+  $scope.unban = function(show) {
+    $http({
+      url: '/shows/' + show.id + '/unban',
+      method: 'PUT',
+      headers: $auth.retrieveData('auth_headers')
+    }).then(function (e){
+      show.banned = false;
+    });
+  }
+
   $scope.vote = function(show, vote_type){
     $http({
       url: '/votes',
