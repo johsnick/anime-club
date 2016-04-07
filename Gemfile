@@ -31,6 +31,7 @@ gem 'pry'
 gem 'pry-rails'
 gem 'devise_token_auth'
 gem 'omniauth'
+gem 'rails_12factor'
 
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
