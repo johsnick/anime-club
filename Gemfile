@@ -32,6 +32,8 @@ gem 'pry-rails'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'rails_12factor'
+gem 'rack-cors', :require => 'rack/cors'
+
 
 source "https://rails-assets.org" do
   gem "rails-assets-angular-devise"
