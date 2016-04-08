@@ -32,6 +32,7 @@ gem 'pry-rails'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'rails_12factor'
+gem 'puma'
 gem 'rack-cors', :require => 'rack/cors'
 
 
