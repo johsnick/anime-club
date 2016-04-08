@@ -29,6 +29,7 @@ angular.module('anime')
       $location.path('/shows');
     }).catch( function (e){
       console.log(e);
+      $scope.error = e.errors[0];
     });
   }
 
