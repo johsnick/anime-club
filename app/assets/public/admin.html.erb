@@ -9,72 +9,28 @@
         <h3 ng-bind="show.show_type"></h3>
         <br>
         <button class="btn btn-primary" ng-click="new_random()">Roll New Random Show</button>
+        <button class="btn btn-default" ng-click="remove_random()">Remove Random</button>
       </div>
       <div class="col-md-4">
         <p style="height:310px;text-overflow:ellipsis;overflow:scroll" ng-bind="show.description"></p>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <button class="btn btn-primary" ng-click="reset_all_votes()">Reset Votes</button>
-    </div>
-  </div>
-  <br>
   <div class="jumbotron">
     <div class="row">
       <h1>Configuration</h1>
-      <form class="form-group" ng-submit="update_config()">
-        <div>
-          <span>Day Voting Closes: </span>
-          <select style="width:inherit;display:inline" class="form-control" ng-model="stop_voting_day">
-            <option>Monday</option>
-            <option>Tuesday</option>
-            <option>Wednesday</option>
-            <option>Thursday</option>
-            <option>Friday</option>
-            <option>Saturday</option>
-            <option>Sunday</option>
-          </select>
-        </div>
-        <div>
-          <span>Time Voting Closes: </span>
-          <select style="width:inherit;display:inline" class="form-control" ng-model="stop_voting_time">
-            <option>1am</option>
-            <option>2am</option>
-            <option>3am</option>
-            <option>4am</option>
-            <option>5am</option>
-            <option>6am</option>
-            <option>7am</option>
-            <option>8am</option>
-            <option>9am</option>
-            <option>10am</option>
-            <option>11am</option>
-            <option>12am</option>
-            <option>1pm</option>
-            <option>2pm</option> 
-            <option>3pm</option>
-            <option>4pm</option>
-            <option>5pm</option>
-            <option>6pm</option>
-            <option>7pm</option>
-            <option>8pm</option>
-            <option>9pm</option>
-            <option>10pm</option>
-            <option>11pm</option>
-            <option>12pm</option>
-          </select>
-        </div>
-        <div>
-          <span>TimeZone:</span>
-          <input style="width:inherit;display:inline" class="form-control" type="text" ng-model="timezone">
-        </div>
-        <button class="btn btn-primary">Submit</button>
-        <div ng-show="error" class="alert alert-danger">
-          <span ng-bind="error"></span>
-        </div>
-      </form>
+      <div ng-if="config.active">
+        <button ng-click="toggle_voting(false)" class="btn btn-primary">DeActivate Voting</button>
+        <span>No more votes can be created</span><br><br>
+      </div>
+      <div ng-hide="config.active">
+        <button ng-click="toggle_voting(true)" class="btn btn-primary">Activate Voting</button>
+        <span>Votes can be created again</span><br><br>
+        <button ng-click="activate_voting_hardcore()" class="btn btn-warning">Activate and Reset Voting</button>
+        <span>Votes can be created again and all downvotes and regular votes will be destroyed</span><br><br>
+      </div>
+      <button ng-click="reset_all_votes()" class="btn btn-danger">Reset All Votes</button>
+      <span>All Votes are destroyed including Super Votes</span>
     </div>
   </div>
 </div>

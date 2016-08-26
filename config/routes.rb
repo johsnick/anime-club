@@ -7,13 +7,19 @@ Rails.application.routes.draw do
 
   root 'layouts#index'
 
-  resources :vote_config, path: 'vote-config'
+  resources :vote_config, path: 'vote-config' do 
+    member do 
+      patch 'toggle-voting', to: 'vote_config#toggle_voting'
+      patch 'activate-voting-hardcore', to: 'vote_config#activate_voting_hardcore'
+    end
+  end
 
   resources :votes do 
     collection do
       delete 'unvote'
       get 'my-votes', to: 'votes#my_votes'
       delete 'reset'
+      delete 'reset-weekly', to: 'votes#reset_weekly'
     end
   end
   resources :shows do 
@@ -22,6 +28,7 @@ Rails.application.routes.draw do
       get 'this-week', to:'shows#this_week'
       get 'rand'
       post 'new-random', to:'shows#new_random'
+      post 'remove-random', to: 'shows#remove_random'
     end
 
     member do 

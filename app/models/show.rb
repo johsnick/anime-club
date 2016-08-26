@@ -2,6 +2,8 @@ class Show < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   attr_accessor :voted
 
+  default_scope -> { where(banned: false) }
+
   def self.fetch_random
     show = nil
     shows = where('vote_count > 0').to_a

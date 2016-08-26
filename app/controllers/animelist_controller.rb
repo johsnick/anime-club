@@ -20,7 +20,7 @@ class AnimelistController < ApplicationController
 
     results = []
     animes.each do |anime|
-      show = Show.find_by(animelist_id: anime['id'])
+      show = Show.unscoped.find_by(animelist_id: anime['id'])
       show.voted = current_user.voted_for?(show) if show.present?
       results << (show.present? ? show : anime)
     end

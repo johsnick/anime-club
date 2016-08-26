@@ -4,7 +4,7 @@ class VotesController < ApplicationController
   def create
     vote = Vote.new
     vote.show_id = params[:show_id]
-    vote.vote_type = params[:vote_type]
+    vote.vote_type = params[:vote_type].present? ? params[:vote_type] : 'default'
     vote.user = current_user
     if vote.save
       render json: vote
@@ -14,7 +14,12 @@ class VotesController < ApplicationController
   end
 
   def reset
-    Vote.destroy_all
+    Vote.unscoped.destroy_all
+    render json: {}
+  end
+
+  def reset_weekly
+    Vote.where.not(vote_type: 'super').destroy_all
     render json: {}
   end
 

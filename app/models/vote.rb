@@ -8,6 +8,8 @@ class Vote < ActiveRecord::Base
 
   validate :valid_vote?
 
+  default_scope { where(active: true) }
+
   def update_vote_count
     show = self.show
     show.vote_count += self.value
@@ -33,15 +35,12 @@ class Vote < ActiveRecord::Base
 
   def valid_vote?
     config = VoteConfig.first
-    now = Time.now.in_time_zone(config.timezone) 
-    if now.wday == config.stop_voting_day && 
-           now > Time.parse(config.stop_voting_time).in_time_zone(config.timezone)
-      errors.add(:votes, 'Voting Closed')
-    end 
+
+    errors.add(:votes, 'Voting disabled') unless config.active
 
     case self.vote_type
     when 'super'
-      unless user.votes.where(vote_type: 'super').count == 0
+      unless user.votes.unscoped.where(vote_type: 'super').count == 0
         errors.add(:votes, 'Already used Super Vote')
       end
     when 'down'
@@ -49,7 +48,7 @@ class Vote < ActiveRecord::Base
         errors.add(:votes, 'Already used Down Vote')
       end
     else
-      unless user.votes.where(vote_type: nil).count < 3
+      unless user.votes.where(vote_type: 'default').count < 3
         errors.add(:votes, 'Already used 3 Votes')
       end
     end
