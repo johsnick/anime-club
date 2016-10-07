@@ -41,7 +41,6 @@ class Vote < ActiveRecord::Base
     case self.vote_type
     when 'super'
       unless Vote.unscoped.where(user: user, vote_type: 'super').count == 0
-      unless user.votes.unscoped.where(vote_type: 'super').count == 0
         errors.add(:votes, 'Already used Super Vote')
       end
     when 'down'
