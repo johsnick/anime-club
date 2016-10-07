@@ -23,14 +23,14 @@ class Vote < ActiveRecord::Base
   end
 
   def type_to_value
-    case self.vote_type 
+    case self.vote_type
     when 'down'
       self.value = -1
     when 'super'
       self.value = 3
     else
       self.value = 1
-    end 
+    end
   end
 
   def valid_vote?
@@ -40,6 +40,7 @@ class Vote < ActiveRecord::Base
 
     case self.vote_type
     when 'super'
+      unless Vote.unscoped.where(user: user, vote_type: 'super').count == 0
       unless user.votes.unscoped.where(vote_type: 'super').count == 0
         errors.add(:votes, 'Already used Super Vote')
       end
