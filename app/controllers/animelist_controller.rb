@@ -3,7 +3,7 @@ class AnimelistController < ApplicationController
 
   def search
     auth = {username: 'swordlord936', password: 'wLUdb3MGTl4hG7x2'}
-    response = HTTParty.get('http://myanimelist.net/api/anime/search.json',
+    response = HTTParty.get('https://myanimelist.net/api/anime/search.json',
                             basic_auth: auth,
                             query: {q: params[:query],
                                     type: 'anime'})
@@ -14,7 +14,7 @@ class AnimelistController < ApplicationController
     end
 
     animes = response['anime']['entry']
-    if animes.class != Array 
+    if animes.class != Array
       animes = [animes]
     end
 
