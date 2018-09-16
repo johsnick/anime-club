@@ -1,7 +1,7 @@
 angular.module('anime', ['ng-token-auth', 'ngRoute'])
 .config(function ($authProvider, $httpProvider, $routeProvider, $locationProvider) {
   $authProvider.configure({
-    apiUrl: 'https://anime-club.herokuapp.com'
+    apiUrl: '<%= Rails.env.production? ? 'https://anime-club.herokuapp.com' : "http://localhost:3000"  %>'
   });
 
 

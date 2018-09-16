@@ -24,3 +24,6 @@ bundle install
 bundle exec rake db:create
 bundle exec rake db:schema:load
 exit
+rails c
+bundle exec rails c
+exit
