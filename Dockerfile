@@ -1,5 +1,5 @@
 FROM ruby:2.3.0
-EXPOSE 5000
+EXPOSE 3000
 RUN apt-get update && apt-get -y install nodejs zsh postgresql-client
 RUN useradd -m docker
 USER docker
